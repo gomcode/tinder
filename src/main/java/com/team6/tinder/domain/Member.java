@@ -19,7 +19,7 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long member_id;
+    private Long memberId;
 
     @Column(nullable = false)
     private String nickname;
