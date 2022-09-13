@@ -4,7 +4,13 @@ import com.team6.tinder.controller.request.TokenDto;
 import com.team6.tinder.controller.response.ResponseDto;
 import com.team6.tinder.domain.Member;
 import com.team6.tinder.domain.RefreshToken;
+import com.team6.tinder.domain.UserDetailsImpl;
 import com.team6.tinder.repository.RefreshTokenRepository;
+import com.team6.tinder.shared.Authority;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SecurityException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -24,7 +30,7 @@ public class TokenProvider {
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_PREFIX = "Bearer ";
     private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;            //30분
-    private static final long REFRESH_TOKEN_EXPRIRE_TIME = 1000 * 60 * 60 * 24 * 7;     //7일
+    private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;     //7일
 
     private final Key key;
 
@@ -46,16 +52,16 @@ public class TokenProvider {
                 .setSubject(member.getNickname())
                 .claim(AUTHORITIES_KEY, Authority.ROLE_MEMBER.toString())
                 .setExpiration(accessTokenExpiresIn)
-                .signWith(key, SignatureAlgorithm.HS256)
+                .signWith(SignatureAlgorithm.HS256, key)
                 .compact();
 
         String refreshToken = Jwts.builder()
-                .setExpiration(new Date(now + REFRESH_TOKEN_EXPRIRE_TIME))
-                .signWith(key, SignatureAlgorithm.HS256)
+                .setExpiration(new Date(now + REFRESH_TOKEN_EXPIRE_TIME))
+                .signWith(SignatureAlgorithm.HS256, key)
                 .compact();
 
         RefreshToken refreshTokenObject = RefreshToken.builder()
-                .id(member.getId())
+                .memberId(member.getMemberId())
                 .member(member)
                 .value(refreshToken)
                 .build();

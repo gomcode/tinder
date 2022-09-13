@@ -1,14 +1,13 @@
 package com.team6.tinder.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import javax.persistence.*;
 
 @Builder
 @Getter
@@ -33,7 +32,6 @@ public class Member {
     @Column(nullable = false)
     @JsonIgnore
     private String loginPw;
-
 
     public boolean validatePassword(PasswordEncoder passwordEncoder, String password) {
         return passwordEncoder.matches(password, this.loginPw);
