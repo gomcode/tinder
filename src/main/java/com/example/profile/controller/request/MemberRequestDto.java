@@ -19,16 +19,22 @@ public class MemberRequestDto {
     private String loginId;
 
     @NotBlank
-    @Size(min = 4, max = 12)
-    @Pattern(regexp = "[a-zA-Z\\d]*${3,12}")
-    private String nickname;
-
-    @NotBlank
     @Size(min = 4, max = 32)
     @Pattern(regexp = "[a-z\\d]*${3,32}")
     private String loginPw;
 
     @NotBlank
     private String loginPw2;
+
+    @NotBlank
+    @Size(min = 4, max = 12)
+    @Pattern(regexp = "[a-zA-Z\\d]*${3,12}")
+    private String nickname;
+
+    @NotBlank
+    private Long sex;
+
+    @NotBlank
+    private String img;
 
 }

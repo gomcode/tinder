@@ -31,9 +31,9 @@ public class MemberService {
 
     @Transactional
     public ResponseDto<?> createMember(MemberRequestDto requestDto) {
-        if (null != isPresentMember(requestDto.getNickname())) {
-            return ResponseDto.fail("DUPLICATED_NICKNAME",
-                    "이미 사용된 닉네임 입니다.");
+        if (null != isPresentMember(requestDto.getLoginId())) {
+            return ResponseDto.fail("DUPLICATED_LOGINId",
+                    "이미 사용된 아이디 입니다.");
         }
 
         if (!requestDto.getLoginPw().equals(requestDto.getLoginPw2())) {
@@ -45,6 +45,8 @@ public class MemberService {
                 .nickname(requestDto.getNickname())
                 .loginId(requestDto.getLoginId())
                 .loginPw(passwordEncoder.encode(requestDto.getLoginPw()))
+                .sex(requestDto.getSex())
+                .image(requestDto.getImg())
                 .build();
         memberRepository.save(member);
         return ResponseDto.success(
