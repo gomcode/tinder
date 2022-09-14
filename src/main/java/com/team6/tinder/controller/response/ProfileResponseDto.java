@@ -9,12 +9,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberResponseDto {
+public class ProfileResponseDto {
     private Long memberId;
-    private String loginId;
-    private String loginPw;
-    private String loginPw2;
     private String nickname;
     private Long sex;
 //    private String imageUrl;
+//    private List<ChattingMember> chattingMemberList;
 }

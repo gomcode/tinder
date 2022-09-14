@@ -1,12 +1,14 @@
 package com.team6.tinder.repository;
 
+
 import com.team6.tinder.domain.Member;
+import com.team6.tinder.domain.Profile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface ProfileRepository extends JpaRepository<Profile, Long> {
 
-    Optional<Member> findById(Long id);
-    Optional<Member> findByLoginId(String loginId);
+
+    Optional<Profile> findByMember(Member member);
 }
