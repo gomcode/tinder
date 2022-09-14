@@ -15,11 +15,12 @@ import javax.persistence.*;
 public class RefreshToken {
 
     @Id
+    @GeneratedValue
     @Column(nullable = false)
     private Long memberId;
 
     @JoinColumn(name = "member_id", nullable = false)
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Member member;
 
     @Column(nullable = false)

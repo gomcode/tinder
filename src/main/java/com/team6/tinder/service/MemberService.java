@@ -57,14 +57,16 @@ public class MemberService {
         }
 
         Member member = Member.builder()
-                .nickname(requestDto.getNickname())
                     .loginId(requestDto.getLoginId())
-                        .loginPw(passwordEncoder.encode(requestDto.getLoginPw()))
-                            .build();
+                    .nickname(requestDto.getNickname())
+                    .loginPw(passwordEncoder.encode(requestDto.getLoginPw()))
+                    .sex(requestDto.getSex())
+                    .build();
         memberRepository.save(member);
         return ResponseDto.success(
                 MemberResponseDto.builder()
-                        .memberId(member.getMemberId())
+//                        .memberId(member.getMemberId())
+                        .loginId(member.getLoginId())
                         .nickname(member.getNickname())
                         .sex(member.getSex())
                         //.img()
@@ -80,7 +82,7 @@ public class MemberService {
         }
 
         if (!member.validatePassword(passwordEncoder, requestDto.getLoginPw())) {
-            return ResponseDto.fail("INVALID_LOGINPW", "사용자를 찾을 수 없습니다.");
+            return ResponseDto.fail("INVALID_LOGINPW", "비밀번호가 틀렸습니다.");
         }
 
         TokenDto tokenDto = tokenProvider.generateTokenDto(member);
