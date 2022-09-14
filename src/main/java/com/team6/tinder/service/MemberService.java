@@ -8,17 +8,17 @@ import com.team6.tinder.controller.response.ResponseDto;
 import com.team6.tinder.domain.Member;
 import com.team6.tinder.jwt.TokenProvider;
 import com.team6.tinder.repository.MemberRepository;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Service
 public class MemberService {
 
@@ -58,9 +58,9 @@ public class MemberService {
 
         Member member = Member.builder()
                 .nickname(requestDto.getNickname())
-                .loginId(requestDto.getLoginId())
-                .loginPw(passwordEncoder.encode(requestDto.getLoginPw()))
-                .build();
+                    .loginId(requestDto.getLoginId())
+                        .loginPw(passwordEncoder.encode(requestDto.getLoginPw()))
+                            .build();
         memberRepository.save(member);
         return ResponseDto.success(
                 MemberResponseDto.builder()
@@ -107,7 +107,6 @@ public class MemberService {
         if (null == member) {
             return ResponseDto.fail("MEMBER_NOT_FOUND", "사용자를 찾을 수 없습니다.");
         }
-
         return tokenProvider.deleteRefreshToken(member);
     }
 
