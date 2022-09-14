@@ -31,10 +31,6 @@ public class MemberRequestDto {
     @Pattern(regexp = "[a-zA-Z\\d]*${3,12}")
     private String nickname;
 
-    @NotBlank
+
     private Long sex;
-
-    @NotBlank
-    private String img;
-
 }

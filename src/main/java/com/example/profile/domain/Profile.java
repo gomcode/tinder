@@ -27,9 +27,10 @@ public class Profile{
                 this.member.setNickname(nickName);
         }
 
-        public void updateImage(String url) {
-                this.member.setImage(url);
-        }
+//        public void updateImage(Image image) {
+//                this.member.setImageUrl(image.getPath());
+//                this.member.setImageKey(image.getKey());
+//        }
 
         public boolean validateMember(Member member) {
                 return !this.member.equals(member);

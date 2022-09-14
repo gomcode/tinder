@@ -5,6 +5,7 @@ import com.example.profile.controller.request.MemberRequestDto;
 import com.example.profile.controller.request.TokenDto;
 import com.example.profile.controller.response.MemberResponseDto;
 import com.example.profile.controller.response.ResponseDto;
+import com.example.profile.domain.Image;
 import com.example.profile.domain.Member;
 import com.example.profile.jwt.TokenProvider;
 import com.example.profile.repository.MemberRepository;
@@ -12,9 +13,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Optional;
 
 @Service
@@ -27,7 +30,42 @@ public class MemberService {
     //  private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
 
+    private final S3UploaderService s3Uploader;
 
+
+//    @Transactional
+//    public ResponseDto<?> createMember(MemberRequestDto requestDto, MultipartFile multipartFile) throws IOException {
+//        if (null != isPresentMember(requestDto.getLoginId())) {
+//            return ResponseDto.fail("DUPLICATED_LOGINId",
+//                    "이미 사용된 아이디 입니다.");
+//        }
+//
+//        if (!requestDto.getLoginPw().equals(requestDto.getLoginPw2())) {
+//            return ResponseDto.fail("PASSWORDS_NOT_MATCHED",
+//                    "비밀번호가 일치하지 않습니다.");
+//        }
+//
+//        //이미지 s3업로드(s3UploaderService 메서드 활용) 후 값 image변수에 입력
+//        Image image = s3Uploader.uploadFiles(multipartFile, "static/");
+//
+//        Member member = Member.builder()
+//                .nickname(requestDto.getNickname())
+//                .loginId(requestDto.getLoginId())
+//                .loginPw(passwordEncoder.encode(requestDto.getLoginPw()))
+//                .sex(requestDto.getSex())
+//                .imageUrl(image.getPath())
+//                .imageKey(image.getKey())
+//                .build();
+//        memberRepository.save(member);
+//        return ResponseDto.success(
+//                MemberResponseDto.builder()
+//                        .memberId(member.getMemberId())
+//                        .nickname(member.getNickname())
+//                        .sex(member.getSex())
+//                        .imageUrl(image.getPath())
+//                        .build()
+//        );
+//    }
 
     @Transactional
     public ResponseDto<?> createMember(MemberRequestDto requestDto) {
@@ -46,7 +84,6 @@ public class MemberService {
                 .loginId(requestDto.getLoginId())
                 .loginPw(passwordEncoder.encode(requestDto.getLoginPw()))
                 .sex(requestDto.getSex())
-                .image(requestDto.getImg())
                 .build();
         memberRepository.save(member);
         return ResponseDto.success(
@@ -54,7 +91,6 @@ public class MemberService {
                         .memberId(member.getMemberId())
                         .nickname(member.getNickname())
                         .sex(member.getSex())
-                        //.img()
                         .build()
         );
     }
@@ -82,6 +118,7 @@ public class MemberService {
         return ResponseDto.success(
                 MemberResponseDto.builder()
                         .memberId(member.getMemberId())
+                        .loginId(member.getLoginId())
                         .nickname(member.getNickname())
                         .build()
         );

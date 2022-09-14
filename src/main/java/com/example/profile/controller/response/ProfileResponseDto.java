@@ -16,6 +16,6 @@ public class ProfileResponseDto {
     private Long memberId;
     private String nickname;
     private Long sex;
-    private String img;
+//    private String imageUrl;
 //    private List<ChattingMember> chattingMemberList;
 }

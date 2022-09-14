@@ -2,11 +2,9 @@ package com.example.profile.controller;
 
 import com.example.profile.controller.response.ResponseDto;
 import com.example.profile.service.ProfileService;
-import com.example.profile.service.S3Upload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -34,12 +32,10 @@ public class ProfileController {
         return profileService.updateNickname(nickname, request);
     }
 
-
-    @PostMapping(value = "/profile/update/img")
-    public ResponseDto<?> updateImage(@RequestParam("images") MultipartFile multipartFile,
-                                     @RequestParam String fileSize, MultipartHttpServletRequest request) throws IOException {
-
-        return profileService.updateImage(multipartFile,fileSize,request);
-    }
+//    @PutMapping(value = "/profile/update/img")
+//    public ResponseDto<?> updateImage(@RequestPart(value = "image") MultipartFile multipartFile, HttpServletRequest request) throws IOException {
+//
+//        return profileService.updateImage(multipartFile,request);
+//    }
 
 }

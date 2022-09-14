@@ -73,9 +73,11 @@ accept: */*
 Content-Type: application/json
 
 {
-  "nickname": "asdf",
-  "password": "asdf",
-  "passwordConfirm": "asdf"
+  "loginId": "asdf123",
+  "loginPw": "asdf123",
+  "loginPw2": "asdf123",
+  "nickname": "asdf123",
+  "sex": 1
 }
 
 

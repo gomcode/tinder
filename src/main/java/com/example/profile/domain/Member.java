@@ -33,8 +33,13 @@ public class Member extends Timestamped {
   @Column(nullable = false)
   private Long sex;
 
-  @Column
-  private String image;
+//  //image 불러올 url
+//  @Column
+//  private String imageUrl;
+//
+//  //image삭제를 위한 key값
+//  @Column
+//  private String imageKey;
 
 
   @Override

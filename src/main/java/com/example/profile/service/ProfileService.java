@@ -2,6 +2,7 @@ package com.example.profile.service;
 
 import com.example.profile.controller.response.ProfileResponseDto;
 import com.example.profile.controller.response.ResponseDto;
+import com.example.profile.domain.Image;
 import com.example.profile.domain.Member;
 import com.example.profile.domain.Profile;
 import com.example.profile.jwt.TokenProvider;
@@ -26,7 +27,7 @@ public class ProfileService {
 
     private final TokenProvider tokenProvider;
 
-    private final S3Upload s3Upload;
+    private final S3UploaderService s3Uploader;
 
 
     @Transactional(readOnly = true)
@@ -41,7 +42,7 @@ public class ProfileService {
                         .memberId(profile.getMember().getMemberId())
                         .nickname(profile.getMember().getNickname())
                         .sex(profile.getMember().getSex())
-                        .img(profile.getMember().getImage())
+//                        .imageUrl(profile.getMember().getImageUrl())
 //                        .chattingMemberList()
                         .build()
         );
@@ -59,46 +60,52 @@ public class ProfileService {
                         .memberId(profile.getMember().getMemberId())
                         .nickname(profile.getMember().getNickname())
                         .sex(profile.getMember().getSex())
-                        .img(profile.getMember().getImage())
+//                        .imageUrl(profile.getMember().getImageUrl())
 //                        .chattingMemberList()
                         .build()
         );
     }
 
 
-    @Transactional
-    public ResponseDto<String> updateImage( MultipartFile multipartFile, String fileSize, HttpServletRequest request) throws IOException {
-
-        if (null == request.getHeader("Refresh-Token")) {
-            return ResponseDto.fail("MEMBER_NOT_FOUND",
-                    "로그인이 필요합니다.");
-        }
-
-        if (null == request.getHeader("Authorization")) {
-            return ResponseDto.fail("MEMBER_NOT_FOUND",
-                    "로그인이 필요합니다.");
-        }
-
-        Member member = validateMember(request);
-        if (null == member) {
-            return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
-        }
-
-        Profile profile = isPresentProfile();
-        if (null != profile) {
-            if (profile.validateMember(member)) {
-                return ResponseDto.fail("BAD_REQUEST", "작성자만 이미지를 등록 할 수 있습니다.");
-            } else {
-
-                String imageUrl = s3Upload.upload(multipartFile.getInputStream(), multipartFile.getOriginalFilename(), fileSize);
-                profile.updateImage(imageUrl);
-                return ResponseDto.success("이미지 등록 완료" + imageUrl);
-            }
-
-        } else {
-            return ResponseDto.fail("NOT_FOUND", "존재하지 않는 프로필 입니다.");
-        }
-    }
+//    @Transactional
+//    public ResponseDto<String> updateImage(MultipartFile multipartFile, HttpServletRequest request) throws IOException {
+//
+//        if (null == request.getHeader("Refresh-Token")) {
+//            return ResponseDto.fail("MEMBER_NOT_FOUND",
+//                    "로그인이 필요합니다.");
+//        }
+//
+//        if (null == request.getHeader("Authorization")) {
+//            return ResponseDto.fail("MEMBER_NOT_FOUND",
+//                    "로그인이 필요합니다.");
+//        }
+//
+//        Member member = validateMember(request);
+//        if (null == member) {
+//            return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
+//        }
+//
+//        Profile profile = isPresentProfile();
+//        if (null != profile) {
+//            if (profile.validateMember(member)) {
+//                return ResponseDto.fail("BAD_REQUEST", "작성자만 이미지를 등록 할 수 있습니다.");
+//            } else {
+//
+//                //이미지 업로드 및 해당 값 image 주입
+//                Image image = s3Uploader.uploadFiles(multipartFile, "static/");
+//
+//                //기존 게시글에 연결되었던 image를 imagekey값을 통해 찾아서 제거
+//                s3Uploader.remove(profile.getMember().getImageKey());
+//
+//                //바뀐 내용 업데이트
+//                profile.updateImage(image);
+//                return ResponseDto.success("이미지 등록 완료" + image);
+//            }
+//
+//        } else {
+//            return ResponseDto.fail("NOT_FOUND", "존재하지 않는 프로필 입니다.");
+//        }
+//    }
 
     @Transactional
     public ResponseDto<Profile> updateNickname(String nickname, HttpServletRequest request) {
@@ -131,7 +138,7 @@ public class ProfileService {
     }
 
     @Transactional(readOnly = true)
-    public Profile isPresentProfile(){
+    public Profile isPresentProfile() {
         Member member = tokenProvider.getMemberFromAuthentication();
 
         Optional<Profile> optionalProfile = profileRepository.findByMember(member);
@@ -146,7 +153,7 @@ public class ProfileService {
     }
 
     @Transactional
-    public Member validateMember (HttpServletRequest request){
+    public Member validateMember(HttpServletRequest request) {
         if (!tokenProvider.validateToken(request.getHeader("Refresh-Token"))) {
             return null;
         }
