@@ -15,4 +15,5 @@ public class LoginRequestDto {
 
     @NotBlank
     private String loginPw;
+
 }

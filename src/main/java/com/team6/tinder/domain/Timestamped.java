@@ -1,4 +1,4 @@
-package com.example.profile.domain;
+package com.team6.tinder.domain;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

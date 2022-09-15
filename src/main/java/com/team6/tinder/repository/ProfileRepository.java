@@ -1,8 +1,8 @@
-package com.example.profile.repository;
+package com.team6.tinder.repository;
 
 
-import com.example.profile.domain.Member;
-import com.example.profile.domain.Profile;
+import com.team6.tinder.domain.Member;
+import com.team6.tinder.domain.Profile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

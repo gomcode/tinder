@@ -17,3 +17,4 @@ public class MemberResponseDto {
     //private String img;
     //private ??? category; 자료형을 어떻게 받아와야할까?
 }
+

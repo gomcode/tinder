@@ -1,10 +1,9 @@
-package com.example.profile.domain;
+package com.team6.tinder.domain;
 
 
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
 
 @Builder

@@ -9,6 +9,7 @@ import com.team6.tinder.domain.Member;
 import com.team6.tinder.jwt.TokenProvider;
 import com.team6.tinder.repository.MemberRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,13 +19,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 
-@AllArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
+    private final com.team6.tinder.service.S3UploaderService s3Uploader;
 
     @Transactional(readOnly = true)
     public Member isPresentLoginId(String loginId) {
@@ -57,11 +59,11 @@ public class MemberService {
         }
 
         Member member = Member.builder()
-                    .loginId(requestDto.getLoginId())
-                    .nickname(requestDto.getNickname())
-                    .loginPw(passwordEncoder.encode(requestDto.getLoginPw()))
-                    .sex(requestDto.getSex())
-                    .build();
+                .loginId(requestDto.getLoginId())
+                .nickname(requestDto.getNickname())
+                .loginPw(passwordEncoder.encode(requestDto.getLoginPw()))
+                .sex(requestDto.getSex())
+                .build();
         memberRepository.save(member);
         return ResponseDto.success(
                 MemberResponseDto.builder()
@@ -74,31 +76,30 @@ public class MemberService {
         );
     }
 
-    @Transactional
-    public ResponseDto<?> login(LoginRequestDto requestDto, HttpServletResponse response) {
-        Member member = isPresentLoginId(requestDto.getLoginId());
-        if (null == member) {
-            return ResponseDto.fail("LOGINID_NOT_FOUND", "사용자를 찾을 수 없습니다.");
+
+        @Transactional
+        public ResponseDto<?> login (LoginRequestDto requestDto, HttpServletResponse response){
+            Member member = isPresentLoginId(requestDto.getLoginId());
+            if (null == member) {
+                return ResponseDto.fail("LOGINID_NOT_FOUND", "사용자를 찾을 수 없습니다.");
+            }
+
+            if (!member.validatePassword(passwordEncoder, requestDto.getLoginPw())) {
+                return ResponseDto.fail("INVALID_LOGINPW", "비밀번호가 틀렸습니다.");
+            }
+
+            TokenDto tokenDto = tokenProvider.generateTokenDto(member);
+            tokenToHeaders(tokenDto, response);
+
+            return ResponseDto.success(
+                    MemberResponseDto.builder()
+                            .memberId(member.getMemberId())
+                            .loginId(member.getLoginId())
+                            .nickname(member.getNickname())
+                            .sex(member.getSex())
+                            .build()
+            );
         }
-
-        if (!member.validatePassword(passwordEncoder, requestDto.getLoginPw())) {
-            return ResponseDto.fail("INVALID_LOGINPW", "비밀번호가 틀렸습니다.");
-        }
-
-        TokenDto tokenDto = tokenProvider.generateTokenDto(member);
-        tokenToHeaders(tokenDto, response);
-
-        return ResponseDto.success(
-                MemberResponseDto.builder()
-                        .memberId(member.getMemberId())
-                        .loginId(member.getLoginId())
-                        .nickname(member.getNickname())
-                        .sex(member.getSex())
-                        .build()
-        );
-    }
-
-
 
 
     public ResponseDto<?> logout(HttpServletRequest request) {
@@ -117,15 +118,7 @@ public class MemberService {
         response.addHeader("Refresh-Token", tokenDto.getRefreshToken());
         response.addHeader("Access-Token-Expire-Time", tokenDto.getAccessTokenExpiresIn().toString());
     }
-
-//
-//    @Transactional(readOnly = true)
-//    public Member isPresentMember(String loginId) {
-//        Optional<Member> optionalMember = memberRepository.findByLoginId(loginId);
-//        return optionalMember.orElse(null);
-//    }
-
-
 }
+
 
 

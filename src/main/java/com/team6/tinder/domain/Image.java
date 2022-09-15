@@ -1,4 +1,4 @@
-package com.example.profile.domain;
+package com.team6.tinder.domain;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Image extends Timestamped {
+public class Image extends com.team6.tinder.domain.Timestamped {
 
     private String key;
     private String path;

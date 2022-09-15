@@ -1,5 +1,4 @@
 package com.team6.tinder.jwt;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team6.tinder.controller.response.ResponseDto;
 import org.springframework.security.access.AccessDeniedException;

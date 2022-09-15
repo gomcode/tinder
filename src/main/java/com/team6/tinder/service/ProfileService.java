@@ -1,21 +1,16 @@
-package com.example.profile.service;
+package com.team6.tinder.service;
 
-import com.example.profile.controller.response.ProfileResponseDto;
-import com.example.profile.controller.response.ResponseDto;
-import com.example.profile.domain.Image;
-import com.example.profile.domain.Member;
-import com.example.profile.domain.Profile;
-import com.example.profile.jwt.TokenProvider;
-import com.example.profile.repository.ProfileRepository;
+import com.team6.tinder.controller.response.ProfileResponseDto;
+import com.team6.tinder.controller.response.ResponseDto;
+import com.team6.tinder.domain.Member;
+import com.team6.tinder.domain.Profile;
+import com.team6.tinder.jwt.TokenProvider;
+import com.team6.tinder.repository.ProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,7 +22,7 @@ public class ProfileService {
 
     private final TokenProvider tokenProvider;
 
-    private final S3UploaderService s3Uploader;
+    private final com.team6.tinder.service.S3UploaderService s3Uploader;
 
 
     @Transactional(readOnly = true)

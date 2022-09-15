@@ -1,4 +1,4 @@
-package com.example.profile.configuration;
+package com.team6.tinder.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

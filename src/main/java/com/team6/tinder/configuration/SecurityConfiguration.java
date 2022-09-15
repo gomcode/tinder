@@ -1,6 +1,5 @@
 package com.team6.tinder.configuration;
 
-
 import com.team6.tinder.jwt.AccessDeniedHandlerException;
 import com.team6.tinder.jwt.AuthenticationEntryPointException;
 import com.team6.tinder.jwt.TokenProvider;
@@ -15,10 +14,19 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+//import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+//import org.springframework.web.cors.CorsConfiguration;
+//import org.springframework.web.cors.CorsConfigurationSource;
+//import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+//>>>>>>> soyun
 
 @Configuration
 @EnableWebSecurity
@@ -26,6 +34,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @ConditionalOnDefaultWebSecurity
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class SecurityConfiguration {
+
 
     @Value("${jwt.secret}")
     String SECRET_KEY;
@@ -65,5 +74,20 @@ public class SecurityConfiguration {
                 .apply(new JwtSecurityConfiguration(SECRET_KEY, tokenProvider, userDetailsService));
 
         return http.build();
+
     }
+
+  @Bean
+  public CorsConfigurationSource corsConfigurationSource(){
+    CorsConfiguration configuration = new CorsConfiguration();
+    configuration.addAllowedOrigin("http://localhost:3000");
+    configuration.addAllowedHeader("*");
+    configuration.addAllowedMethod("*");
+    configuration.addExposedHeader("*"); // 모든걸 허용함
+
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+    return source;
+  }
 }
+

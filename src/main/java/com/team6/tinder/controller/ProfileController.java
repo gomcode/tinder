@@ -1,13 +1,11 @@
-package com.example.profile.controller;
+package com.team6.tinder.controller;
 
-import com.example.profile.controller.response.ResponseDto;
-import com.example.profile.service.ProfileService;
+import com.team6.tinder.controller.response.ResponseDto;
+import com.team6.tinder.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 
 @RequiredArgsConstructor
