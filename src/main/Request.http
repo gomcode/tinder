@@ -1,0 +1,126 @@
+### Post
+POST http://localhost:8080/api/auth/post
+accept: */*
+Refresh-Token: eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjI1NDAwMDd9.V8n5QpHCqhpzp1wt_NTpIFXiJadXGs3uL-yX3SbLzhs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2RmIiwiYXV0aCI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNjYxOTM3MDA3fQ.3d2vdFjMV1jY0tDHlbDDfWsJuRrkrp4HnjY8o9rnStQ
+Content-Type: application/json
+
+{
+  "content": "asdf",
+  "title": "asdf"
+}
+
+
+### LikePost
+POST http://localhost:8080/api/auth/like/post/1
+accept: */*
+Refresh-Token: eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjI1NDAwMDd9.V8n5QpHCqhpzp1wt_NTpIFXiJadXGs3uL-yX3SbLzhs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2RmIiwiYXV0aCI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNjYxOTM3MDA3fQ.3d2vdFjMV1jY0tDHlbDDfWsJuRrkrp4HnjY8o9rnStQ
+Content-Type: application/json
+
+
+### LikeDelete
+DELETE http://localhost:8080/api/auth/like/post/1
+accept: */*
+Refresh-Token: eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjI1NDAwMDd9.V8n5QpHCqhpzp1wt_NTpIFXiJadXGs3uL-yX3SbLzhs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2RmIiwiYXV0aCI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNjYxOTM3MDA3fQ.3d2vdFjMV1jY0tDHlbDDfWsJuRrkrp4HnjY8o9rnStQ
+Content-Type: application/json
+
+
+
+
+
+### Comment
+# curl -X POST "http://localhost:8080/api/auth/comment" -H "accept: */*" -H "Refresh-Token: eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjI0NTQzMzN9.xkc11bvroIuhfSm4iAoY1AGEUX4pWhUyYCO7oFAoOrY" -H "Content-Type: application/json" -d "{ \"content\": \"comment\", \"postId\": 1}"
+POST http://localhost:8080/api/auth/comment
+accept: */*
+Refresh-Token: eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjI1NDAwMDd9.V8n5QpHCqhpzp1wt_NTpIFXiJadXGs3uL-yX3SbLzhs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2RmIiwiYXV0aCI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNjYxOTM3MDA3fQ.3d2vdFjMV1jY0tDHlbDDfWsJuRrkrp4HnjY8o9rnStQ
+Content-Type: application/json
+
+{
+  "content": "comment",
+  "postId": 1
+}
+
+
+### LikeComment
+POST http://localhost:8080/api/auth/like/comment/1
+accept: */*
+Refresh-Token: eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjI1NDAwMDd9.V8n5QpHCqhpzp1wt_NTpIFXiJadXGs3uL-yX3SbLzhs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2RmIiwiYXV0aCI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNjYxOTM3MDA3fQ.3d2vdFjMV1jY0tDHlbDDfWsJuRrkrp4HnjY8o9rnStQ
+Content-Type: application/json
+
+
+### CommentLikeDelete
+DELETE http://localhost:8080/api/auth/like/comment/1
+accept: */*
+Refresh-Token: eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjI1NDAwMDd9.V8n5QpHCqhpzp1wt_NTpIFXiJadXGs3uL-yX3SbLzhs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2RmIiwiYXV0aCI6IlJPTEVfTUVNQkVSIiwiZXhwIjoxNjYxOTM3MDA3fQ.3d2vdFjMV1jY0tDHlbDDfWsJuRrkrp4HnjY8o9rnStQ
+Content-Type: application/json
+
+
+### GETPost
+GET http://localhost:8080/api/post
+accept: */*
+Content-Type: application/json
+
+
+###
+# 회원가입
+POST http://localhost:8080/api/member/signup
+accept: */*
+Content-Type: application/json
+
+{
+  "loginId": "soyun2",
+  "nickname": "soyun2",
+  "password": "soyun2",
+  "passwordConfirm": "soyun2",
+  "sex": 2
+}
+
+
+###
+# 로그인
+POST http://localhost:8080/api/member/login
+accept: */*
+Content-Type: application/json
+
+{
+  "nickname": "soyun2",
+  "password": "soyun2"
+}
+
+
+### Profile
+PUT http://localhost:8080/profile/update/Sex/soyun2
+accept: */*
+Refresh-Token: eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjM4MTYzNjF9.G7eMEVroLtK87RM7aL08fY9eutZWdskSQFiYKmqbmFU
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb3l1bjIiLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2NjMyMTMzNjF9.zNU1HcOUPJZlOvqWSMRfmsMT334xnRGiseMzhSrK8sY
+Content-Type: application/json
+
+{
+  "sex": 0
+}
+
+
+
+### GETPost
+GET http://localhost:8080/profile/member/5
+accept: */*
+Content-Type: application/json
+
+
+### GETPost
+GET http://localhost:8080/profile/member/mypage/soyun
+accept: */*
+Refresh-Token: eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjM4MTUyNDR9.9fKnVyFmt6Jjj2sNRGD_Ol2JaGHx5ogvHP86bgduaps
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb3l1bjIiLCJhdXRoIjoiUk9MRV9NRU1CRVIiLCJleHAiOjE2NjMyMTMzNjF9.zNU1HcOUPJZlOvqWSMRfmsMT334xnRGiseMzhSrK8sY
+Content-Type: application/json
+
+
+
+
+
+
